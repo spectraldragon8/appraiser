@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bandit Skin Net Worth</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #131a2e;
+      --text: #eef3ff;
+      --muted: #aeb8d6;
+      --accent: #7c9cff;
+      --accent2: #90f2ff;
+      --border: rgba(255,255,255,0.08);
+      --good: #65d6a4;
+      --warn: #ffd166;
+      --bad: #ff7b7b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(124,156,255,0.18), transparent 25%),
+        radial-gradient(circle at top left, rgba(144,242,255,0.10), transparent 22%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1200px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    h1, h2 {
+      margin: 0 0 10px;
+    }
+
+    .sub {
+      color: var(--muted);
+      margin: 0 0 18px;
+      line-height: 1.5;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 12px;
+    }
+
+    input, textarea, button {
+      font: inherit;
+      border-radius: 14px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text);
+      outline: none;
+    }
+
+    textarea {
+      min-height: 220px;
+      resize: vertical;
+    }
+
+    button {
+      border: 0;
+      padding: 14px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #0a1023;
+    }
+
+    button.secondary {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .status {
+      margin-top: 12px;
+      color: var(--muted);
+      min-height: 20px;
+    }
+
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .bad { color: var(--bad); }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .value {
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 1.7fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .missing-list {
+      display: grid;
+      gap: 10px;
+      max-height: 500px;
+      overflow: auto;
+    }
+
+    .missing-item {
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    a.profile-link {
+      color: var(--accent2);
+      text-decoration: none;
+    }
+
+    @media (max-width: 1000px) {
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .main { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 700px) {
+      .topbar { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <h1>Bandit skin net worth</h1>
+      <p class="sub">
+        Enter a username, scrape the raw Bandit profile HTML, match the skins against <span class="mono">values.txt</span>,
+        and calculate total net worth.
+      </p>
+
+      <div class="topbar">
+        <input id="usernameInput" type="text" placeholder="Username Goes Here" />
+        <button id="analyzeBtn">Analyze</button>
+        <button id="reloadValuesBtn" class="secondary">Reload values.txt</button>
+      </div>
+
+      <div id="status" class="status">Loading values.txt...</div>
+    </div>
+
+    <div class="stats">
+      <div class="card">
+        <div class="label">Player</div>
+        <div id="statPlayer" class="value">-</div>
+        <div id="statProfile" class="small">No profile loaded</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Skin value</div>
+        <div id="statSkinValue" class="value">0</div>
+        <div id="statSkinCount" class="small">0 tracked skins</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Profile coins</div>
+        <div id="statCoins" class="value">0</div>
+        <div class="small">Pulled from player page</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Total net worth</div>
+        <div id="statTotal" class="value">0</div>
+        <div id="statMissing" class="small">0 missing prices</div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="panel">
+        <h2>Tracked skins breakdown</h2>
+        <p class="sub">
+          <a id="profileLink" class="profile-link" href="#" target="_blank" rel="noopener noreferrer">Open profile</a>
+        </p>
+
+        <div style="overflow:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Skin</th>
+                <th>Qty</th>
+                <th>Value</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="resultsTableBody">
+              <tr><td colspan="4" style="color:#aeb8d6;">No data yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:grid; gap:18px;">
+        <div class="panel">
+          <h2>Missing prices</h2>
+          <div id="missingList" class="missing-list">
+            <div class="missing-item">None</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Loaded values.txt</h2>
+          <div class="toolbar">
+            <button id="copyTemplateBtn" class="secondary">Copy missing template</button>
+          </div>
+          <textarea id="valuesPreview" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ALLOWED_SKINS = [
+      "bigb1","bigb2","bigb3","bigb4","bigbs1","dai1","dai2","dai3","dai4","dair1","dais1","emy1","emy2","emy3","emy4","emyr1","emys1","emyse","janko1","janko2","janko3","janko4","jankos1","jonjon1","jonjon2","jonjon3","jonjon4","jonjons1","magekid1","magekid2","magekid3","magekid4","magekidr1","magekids1","nero1","nero2","nero3","nero4","neros1","pboi1","pboi2","pboi3","pboi4","pboir1","pbois1","revis1","revis2","revis3","revis4","reviss1","samurai1","samurai2","samurai3","samurai4","samurais1","sniper1","sniper2","sniper3","sniper4","snipers1","zetoman1","zetoman2","zetoman3","zetoman4","zetomans1","bazooka1","bazooka2","bazooka3","bazooka4","bazookas1","bigb5","bigb6","bigb7","bigbr1","bigbs2","bigbse1","dai5","dai6","dai7","dais2","daise1","daise2","daiser1","daiu1","daiu2","emy5","emy6","emy7","emys2","emyu1","janko5","janko6","janko7","jankor1","jankos2","jankou1","jonjon5","jonjon6","jonjon7","jonjonr1","jonjons2","magekid5","magekid6","magekid7","magekids2","magekidse1","magekidser1","nero5","nero6","nero7","neros2","nerou1","nerou2","pboi5","pboi6","pboi7","pbois2","revis5","revis6","revis7","reviss2","samrival1","samrival2","samrival3","samrival4","samrivals1","samurai5","samurai6","samurai7","samurais2","sniper5","sniper6","sniper7","sniperr1","snipers2","zetoman5","zetoman6","zetoman7","zetomans2","zetomanse1","bazookachr2","bigbchr2","daichr2","huntchr2","jankochr2","jonjonchr2","nerochr2","daichr3","emychr3","evilolifchr3","huntchr3","magekidchr3","revischr3","sniperchr3","emychr4","magekidchr4","nerochr4","pboichr4","samrivalchr4","samuraichr4","zetomanchr4","bazookamari1","bigbmag1","bigbmagr1","bigbmari2","bigbmarir2","daimag1","daimagr1","daimari1","daimari2","emymari1","emymari2","jankomag1","jankomagr1","jonjonmari1","magekidmari1","neromari1","pboimari1","pboimari2","revismari2","samrivalmag1","samrivalmagr1","samuraimari1","snipermari1","zetomanmari1","zetomanmari2","bigbspr1","evilolifspr1","magekidspr1","revisspr1","revisspr1se","samrivalspr1","samuraispr1","sniperspr1","zetomanspr1","bazookapromo","bigbchr","daichr","emychr","jankochr","magekidchr","pboichr"
+    ];
+
+    const allowedSet = new Set(ALLOWED_SKINS.map(x => x.toLowerCase()));
+    let valuesMap = new Map();
+    let lastMissingTemplate = "";
+
+    const els = {
+      usernameInput: document.getElementById("usernameInput"),
+      analyzeBtn: document.getElementById("analyzeBtn"),
+      reloadValuesBtn: document.getElementById("reloadValuesBtn"),
+      copyTemplateBtn: document.getElementById("copyTemplateBtn"),
+      status: document.getElementById("status"),
+      profileLink: document.getElementById("profileLink"),
+      valuesPreview: document.getElementById("valuesPreview"),
+
+      statPlayer: document.getElementById("statPlayer"),
+      statProfile: document.getElementById("statProfile"),
+      statSkinValue: document.getElementById("statSkinValue"),
+      statSkinCount: document.getElementById("statSkinCount"),
+      statCoins: document.getElementById("statCoins"),
+      statTotal: document.getElementById("statTotal"),
+      statMissing: document.getElementById("statMissing"),
+
+      resultsTableBody: document.getElementById("resultsTableBody"),
+      missingList: document.getElementById("missingList")
+    };
+
+    function formatNumber(n) {
+      return new Intl.NumberFormat().format(Number(n) || 0);
+    }
+
+    function setStatus(msg, type = "") {
+      els.status.textContent = msg;
+      els.status.className = `status ${type}`.trim();
+    }
+
+    function sanitizeUsername(username) {
+      return String(username || "").trim().replace(/^@+/, "").replace(/\s+/g, "");
+    }
+
+    function parseValues(text) {
+      const map = new Map();
+      const lines = String(text || "").split(/\r?\n/);
+
+      for (const raw of lines) {
+        const line = raw.trim();
+        if (!line || line.startsWith("#")) continue;
+
+        const idx = line.indexOf(":");
+        if (idx === -1) continue;
+
+        const skin = line.slice(0, idx).trim().toLowerCase();
+        const value = Number(line.slice(idx + 1).trim());
+
+        if (!skin || !Number.isFinite(value)) continue;
+        map.set(skin, value);
+      }
+
+      return map;
+    }
+
+    async function loadValuesFile() {
+      try {
+        setStatus("Loading values.txt...");
+        const res = await fetch(`./values.txt?v=${Date.now()}`);
+        if (!res.ok) throw new Error(`values.txt returned ${res.status}`);
+        const text = await res.text();
+        valuesMap = parseValues(text);
+        els.valuesPreview.value = text.trim();
+        setStatus(`Loaded values.txt with ${valuesMap.size} prices.`, "good");
+      } catch (err) {
+        valuesMap = new Map();
+        els.valuesPreview.value = "";
+        setStatus(`Could not load ./values.txt. ${err.message}`, "bad");
+      }
+    }
+
+    function getProfileUrl(username) {
+      return `https://bandit.rip/player/@${encodeURIComponent(username)}`;
+    }
+
+    function getCandidateUrls(targetUrl) {
+      return [
+        { label: "direct", url: targetUrl, type: "text" },
+        { label: "corsproxy", url: `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`, type: "text" },
+        { label: "allorigins-raw", url: `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`, type: "text" },
+        { label: "allorigins-json", url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`, type: "json" }
+      ];
+    }
+
+    async function fetchProfileHtml(username) {
+      const targetUrl = getProfileUrl(username);
+      const candidates = getCandidateUrls(targetUrl);
+      let lastErr = null;
+
+      for (const c of candidates) {
+        try {
+          setStatus(`Fetching profile with ${c.label}...`);
+          const res = await fetch(c.url);
+          if (!res.ok) throw new Error(`${c.label} returned ${res.status}`);
+
+          let html = "";
+          if (c.type === "json") {
+            const data = await res.json();
+            html = data && typeof data.contents === "string" ? data.contents : "";
+          } else {
+            html = await res.text();
+          }
+
+          if (!html || !/PLAYER PROFILE|playerpage-costume|COINS:/i.test(html)) {
+            throw new Error(`${c.label} did not return usable profile html`);
+          }
+
+          return { html, targetUrl, source: c.label };
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+
+      throw lastErr || new Error("Could not fetch profile HTML");
+    }
+
+    function parseProfile(html, fallbackUsername) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const rawText = doc.body ? doc.body.textContent : html;
+
+      const playerName =
+        doc.querySelector(".playerpage-profile-stats-2")?.textContent?.match(/@([^\s\[]+)/)?.[1] ||
+        doc.querySelector("title")?.textContent?.match(/@([^\s-]+)/)?.[1] ||
+        sanitizeUsername(fallbackUsername);
+
+      const coinsMatch = rawText.match(/COINS:\s*([\d,]+)/i);
+      const coins = coinsMatch ? Number(coinsMatch[1].replace(/,/g, "")) : 0;
+
+      const counts = new Map();
+      const cards = Array.from(doc.querySelectorAll(".playerpage-costume-c"));
+
+      for (const card of cards) {
+        const qtyText = card.querySelector(".playerpage-costume-n")?.textContent?.trim() || "";
+        const qty = Number(qtyText.replace(/,/g, ""));
+        if (!Number.isFinite(qty) || qty <= 0) continue;
+
+        const styled = Array.from(card.querySelectorAll("[style]"));
+        let skin = null;
+
+        for (const el of styled) {
+          const style = el.getAttribute("style") || "";
+          const match = style.match(/base([a-z0-9]+)\.png/i);
+          if (match) {
+            skin = match[1].toLowerCase();
+            break;
+          }
+        }
+
+        if (!skin || !allowedSet.has(skin)) continue;
+        counts.set(skin, (counts.get(skin) || 0) + qty);
+      }
+
+      return { playerName, coins, counts };
+    }
+
+    function compute(profile) {
+      const rows = [];
+      const missing = [];
+      let skinValue = 0;
+      let trackedQty = 0;
+
+      for (const [skin, qty] of profile.counts.entries()) {
+        trackedQty += qty;
+        const value = valuesMap.has(skin) ? Number(valuesMap.get(skin)) : null;
+        const subtotal = value == null ? null : value * qty;
+
+        if (subtotal != null) skinValue += subtotal;
+        if (value == null) missing.push({ skin, qty });
+
+        rows.push({ skin, qty, value, subtotal });
+      }
+
+      rows.sort((a, b) => {
+        const aa = a.subtotal == null ? -1 : a.subtotal;
+        const bb = b.subtotal == null ? -1 : b.subtotal;
+        if (bb !== aa) return bb - aa;
+        return b.qty - a.qty;
+      });
+
+      missing.sort((a, b) => b.qty - a.qty || a.skin.localeCompare(b.skin));
+
+      return {
+        rows,
+        missing,
+        trackedQty,
+        skinValue,
+        total: skinValue + profile.coins
+      };
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function render(profile, computed, profileUrl) {
+      els.profileLink.href = profileUrl;
+      els.statPlayer.textContent = `@${profile.playerName}`;
+      els.statProfile.textContent = `${computed.rows.length} tracked skin types found`;
+      els.statSkinValue.textContent = formatNumber(computed.skinValue);
+      els.statSkinCount.textContent = `${formatNumber(computed.trackedQty)} total tracked skins`;
+      els.statCoins.textContent = formatNumber(profile.coins);
+      els.statTotal.textContent = formatNumber(computed.total);
+      els.statMissing.textContent = `${computed.missing.length} missing prices`;
+
+      if (!computed.rows.length) {
+        els.resultsTableBody.innerHTML = `<tr><td colspan="4" style="color:#aeb8d6;">No tracked skins found.</td></tr>`;
+      } else {
+        els.resultsTableBody.innerHTML = computed.rows.map(row => `
+          <tr>
+            <td class="mono">${escapeHtml(row.skin)}</td>
+            <td>${formatNumber(row.qty)}</td>
+            <td>${row.value == null ? '<span style="color:#ffd166;">missing</span>' : formatNumber(row.value)}</td>
+            <td>${row.subtotal == null ? '<span style="color:#ffd166;">-</span>' : formatNumber(row.subtotal)}</td>
+          </tr>
+        `).join("");
+      }
+
+      if (!computed.missing.length) {
+        els.missingList.innerHTML = `<div class="missing-item">None</div>`;
+        lastMissingTemplate = "";
+      } else {
+        els.missingList.innerHTML = computed.missing.map(item => `
+          <div class="missing-item">
+            <div><strong class="mono">${escapeHtml(item.skin)}</strong></div>
+            <div style="color:#aeb8d6; margin-top:4px;">${formatNumber(item.qty)} owned</div>
+          </div>
+        `).join("");
+
+        lastMissingTemplate = computed.missing.map(item => `${item.skin}:0`).join("\n");
+      }
+    }
+
+    async function analyze() {
+      const username = sanitizeUsername(els.usernameInput.value);
+      if (!username) {
+        setStatus("Enter a username first.", "bad");
+        return;
+      }
+
+      els.analyzeBtn.disabled = true;
+
+      try {
+        const fetched = await fetchProfileHtml(username);
+        const profile = parseProfile(fetched.html, username);
+        const computed = compute(profile);
+        render(profile, computed, fetched.targetUrl);
+        setStatus(`Loaded @${profile.playerName} using ${fetched.source}.`, "good");
+      } catch (err) {
+        console.error(err);
+        setStatus(`Could not fetch or parse that profile. ${err.message}`, "bad");
+      } finally {
+        els.analyzeBtn.disabled = false;
+      }
+    }
+
+    els.analyzeBtn.addEventListener("click", analyze);
+    els.reloadValuesBtn.addEventListener("click", loadValuesFile);
+
+    els.usernameInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") analyze();
+    });
+
+    els.copyTemplateBtn.addEventListener("click", async () => {
+      if (!lastMissingTemplate) {
+        setStatus("No missing prices to copy.", "warn");
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(lastMissingTemplate);
+        setStatus("Copied missing skin template.", "good");
+      } catch {
+        setStatus("Could not copy to clipboard.", "bad");
+      }
+    });
+
+    async function init() {
+      els.usernameInput.value = "H3ts";
+      els.profileLink.href = getProfileUrl("H3ts");
+      await loadValuesFile();
+    }
+
+    init();
+  </script>
+</body>
+</html>
